@@ -16,11 +16,11 @@ public class SequenceTree {
 
         sequenceNodes.add(head); // Добавляем вершину
         int previousAddedCount = 1; // Количество прошлых сгенерированных цепочек
-        int curAddedCount = 0; // Количество только что сгенерированных цепочек
+        int currentAddedCount = 0; // Количество только что сгенерированных цепочек
 
         // Пока текущее количество не равно прошлому, продолжать генерировать цепочки
-        while (curAddedCount != previousAddedCount) {
-            previousAddedCount = curAddedCount; // В каждой итерации цикла, прошлое количество становится текущим
+        while (currentAddedCount != previousAddedCount) {
+            previousAddedCount = currentAddedCount; // В каждой итерации цикла, прошлое количество становится текущим
             List<SequenceNode> tempSequenceNodes = new ArrayList<>(); // временный массив для генерируемых цепочек
 
             // Проходим по текущим цепочкам
@@ -52,7 +52,7 @@ public class SequenceTree {
             }
 
             // Временный массив узлов теперь становится текущим
-            curAddedCount += tempSequenceNodes.size(); // После выполения всех манипуляций изменяем количество добавленных узлов
+            currentAddedCount += tempSequenceNodes.size(); // После выполения всех манипуляций изменяем количество добавленных узлов
             sequenceNodes = tempSequenceNodes;
         }
 

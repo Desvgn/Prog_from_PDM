@@ -9,14 +9,14 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Введите правила:");
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         List<Rule> tempRules = new ArrayList<>();
-        String curLine;
+        String currentLine;
 
         // Формируем введенные правила
-        while (!(curLine = scanner.nextLine()).equals("")) {
+        while (!(currentLine = sc.nextLine()).equals("")) {
             try {
-                Rule rule = createRule(curLine);
+                Rule rule = createRule(currentLine);
                 tempRules.add(rule);
             } catch (Exception ex) {
                 System.err.println("Введено ошибочное правило.");
@@ -27,7 +27,7 @@ public class Main {
         rules = tempRules.toArray(new Rule[0]);
 
         // Формируем цепочку которую нужно разобрать
-        String initSequence = scanner.nextLine();
+        String initSequence = sc.nextLine();
 
         SequenceTree sequenceTree = new SequenceTree(Main.rules); // Создаем дерево цепочек
         SequenceNode node = sequenceTree.findSequence(initSequence); // Находим цепочку
@@ -37,7 +37,7 @@ public class Main {
             System.out.println("Цепочка не пренадлежит введенной грамматике.");
             System.exit(0);
         }
-
+        // Переменная смещения
         int offset = 20;
         if (initSequence.length() > offset) {
             offset = initSequence.length() + 3;
@@ -56,19 +56,19 @@ public class Main {
 
         int countChars = 0; // Количество символов которые нужно обрезать
         for (String sequence : sequences) {
-            String temp = sequence.substring(countChars);
-            println(offset, "q", initSequence, temp);
-            while (initSequence.length() > 0 && initSequence.charAt(0) == temp.charAt(0)) {
-                if (initSequence.length() > 1) {
-                    temp = temp.substring(1);
-                    initSequence = initSequence.substring(1);
+            String tmp = sequence.substring(countChars);
+            println(offset, "q", sequence, tmp);
+            while (sequence.length() > 0 && sequence.charAt(0) == tmp.charAt(0)) {
+                if (sequence.length() > 1) {
+                    tmp = tmp.substring(1);
+                    sequence = sequence.substring(1);
                 } else {
-                    temp = "";
-                    initSequence = "";
+                    tmp = "";
+                    sequence = "";
                 }
                 countChars++;
-                if (initSequence.length() > 0) {
-                    println(offset, "q", initSequence, temp);
+                if (sequence.length() > 0) {
+                    println(offset, "q", sequence, tmp);
                 } else {
                     println(offset, "q", "ℇ", "ℇ");
                 }
@@ -79,7 +79,6 @@ public class Main {
     }
 
     private static Rule createRule(String str) throws Exception {
-        //str = str.replaceAll("\\s+", ""); // Удалить пробелы между символами
         String[] parts = str.split("->"); // Поделить строку
 
         if (parts.length == 0 ||
